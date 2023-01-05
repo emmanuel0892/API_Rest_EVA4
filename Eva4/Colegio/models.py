@@ -8,7 +8,7 @@ class Nivel_Academico(models.Model):
         return str(self.nombre_nivel)
 
 class Asignaturas(models.Model):
-    cod_asignatura = models.AutoField(primary_key=True)
+    cod_asignatura = models.IntegerField(primary_key=True)
     nombre = models.TextField(max_length=50)
 
     def __str__(self):
