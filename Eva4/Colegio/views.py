@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from Colegio.models import Alumnos
+from Colegio.models import Alumnos,Docentes
 
 def ListarAlumnos(request):
     alumnos = Alumnos.objects.all()
@@ -8,7 +8,9 @@ def ListarAlumnos(request):
     return JsonResponse(datos)
 
 def ListarDocentes(request):
-    pass
+    docentes = Docentes.objects.all()
+    datos = { "docentes" : list(docentes.values('rutDocente','nombre','apellidoP','apellidoM','sexo')) }
+    return JsonResponse(datos)
 
 def ListarAsignaturas(request):
     pass
