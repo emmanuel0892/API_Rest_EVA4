@@ -175,8 +175,44 @@ def ListarNivelesAcademicos(request):
     datos = { "niveles_academicos" : list(niveles_academicos.values('cod_nivelA','nombre_nivel')) }
     return JsonResponse(datos)
 
+@api_view(['GET','POST'])
+def nivel_academico_list(request):
+    if request.method == 'GET':
+        nivel = Nivel_Academico.objects.all()
+        ser = Nivel_Academico_Serializer(nivel, many=True)
+        return Response(ser.data)
+    
+    #Agregar nuevo nivel academico
+    if request.method == 'POST':
+        ser = Nivel_Academico_Serializer(data=request.data)
+        if ser.is_valid():
+            ser.save()
+            return Response(ser.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET','PUT','DELETE'])
+def nivel_academico_detail(request, id):
+    try:
+        nivel = Nivel_Academico.objects.get(cod_nivelA = id)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+    if request.method == 'GET':
+        ser = Nivel_Academico_Serializer(nivel)
+        return Response(ser.data)
 
+    if request.method == 'PUT':
+        ser = Nivel_Academico_Serializer(nivel, data=request.data)
+        if ser.is_valid():
+            ser.save()
+            return Response(ser.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        nivel.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 # CURSOS
 #***********************************************************************************************************************
@@ -185,5 +221,44 @@ def ListarCursos(request):
     cursos = Cursos.objects.all()
     datos = { "cursos" : list(cursos.values('id_curso','nivel_academico','rutDocente','asignatura')) }
     return JsonResponse(datos)
+
+@api_view(['GET','POST'])
+def cursos_list(request):
+    if request.method == 'GET':
+        cursos = Cursos.objects.all()
+        ser = Cursos_Serializer(cursos, many=True)
+        return Response(ser.data)
+
+    #Agregar nuevo curso
+    if request.method == 'POST':
+        ser = Cursos_Serializer(data=request.data)
+        if ser.is_valid():
+            ser.save()
+            return Response(ser.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET','PUT','DELETE'])
+def cursos_detail(request, id):
+    try:
+        cursos = Cursos.objects.get(id_curso = id)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'GET':
+        ser = Cursos_Serializer(cursos)
+        return Response(ser.data)
+
+    if request.method == 'PUT':
+        ser = Cursos_Serializer(cursos, data=request.data)
+        if ser.is_valid():
+            ser.save()
+            return Response(ser.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    if request.method == 'DELETE':
+        cursos.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 #***********************************************************************************************************************

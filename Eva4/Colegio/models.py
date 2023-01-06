@@ -1,7 +1,7 @@
 from django.db import models
 
 class Nivel_Academico(models.Model):
-    cod_nivelA = models.AutoField(primary_key=True)
+    cod_nivelA = models.IntegerField(primary_key=True)
     nombre_nivel = models.TextField(max_length=50)
 
     def __str__(self):

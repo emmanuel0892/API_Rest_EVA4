@@ -17,4 +17,10 @@ urlpatterns = [
     #asignaturas
     path('asignaturas/', views.asignaturas_list),
     path('asignaturas/<int:id>', views.asignatura_detail),
+    #niveles academicos
+    path('niveles_academicos/', views.nivel_academico_list),
+    path('niveles_academicos/<int:id>', views.nivel_academico_detail),
+    #cursos
+    path('cursos/', views.cursos_list),
+    path('cursos/<int:id>', views.cursos_detail),
 ]
